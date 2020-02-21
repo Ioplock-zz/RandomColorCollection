@@ -16,6 +16,7 @@ public class SaveView extends View {
 
     public SaveView(Context context) {
         super(context);
+        // Достаю изображения из ресурсов
         star = getResources().getDrawable(R.drawable.star, null);
         filled_star = getResources().getDrawable(R.drawable.filled_star, null);
     }
@@ -32,8 +33,9 @@ public class SaveView extends View {
         Height = h;
     }
 
-    public void setColor(ColorR color) {
+    public void setColor(ColorR color) { // Функция котораем запоминаем назначенный цвет
         this.color = color;
+        invalidate();
     }
 
     @Override

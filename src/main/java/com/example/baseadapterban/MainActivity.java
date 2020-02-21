@@ -20,54 +20,47 @@ public class MainActivity extends AppCompatActivity {
     ListView ls;
     Random r = new Random();
 
-    final String SHARED_PREFS = "sharedPrefs";
-    final String TEXT = "text";
 
-
-    static public ArrayList<ColorR> favorite = new ArrayList<>();
+    static public ArrayList<ColorR> favorite = new ArrayList<>(); // Список сохранённых цветов
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        final ArrayList<ColorR> colors = new ArrayList<>();
-
+        // Инициализация переменных View
         butt = findViewById(R.id.generate);
         nextA = findViewById(R.id.open_save_activity);
         ls = findViewById(R.id.list);
 
-        //Init
-        colors.clear();
-
-        for (int i = 0; i < 100; i++) {
-            int rand_c = r.nextInt(0xffffff + 1);
-            colors.add(new ColorR(String.format("#%06x", rand_c)));
-        }
-        RandomColorAdapter my = new RandomColorAdapter(getApplicationContext(), colors);
+        // Первая генерация цветов
+        RandomColorAdapter my = new RandomColorAdapter(getApplicationContext(), generateColors());
         ls.setAdapter(my);
 
 
         butt.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                colors.clear();
-
-                for (int i = 0; i < 100; i++) {
-                    int rand_c = r.nextInt(0xffffff + 1);
-                    colors.add(new ColorR(String.format("#%06x", rand_c)));
-                }
-                RandomColorAdapter my = new RandomColorAdapter(getApplicationContext(), colors);
+            public void onClick(View v) { // Генерация по нажитию на кнопку
+                RandomColorAdapter my = new RandomColorAdapter(getApplicationContext(), generateColors());
                 ls.setAdapter(my);
             }
         });
         nextA.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v) { // Кнопка перехода в меню сохранённых цветов
                 Intent menu = new Intent(getApplicationContext(), Favorites.class);
                 startActivity(menu);
             }
         });
 
+    }
+
+    public ArrayList<ColorR> generateColors() { // Функция для генерации массива из 100 рандомных цветов
+        ArrayList<ColorR> colors = new ArrayList<>();
+        for (int i = 0; i < 100; i++) {
+            int rand_c = r.nextInt(0xffffff + 1);
+            colors.add(new ColorR(String.format("#%06x", rand_c)));
+        }
+        return colors;
     }
 }
